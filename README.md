@@ -4,7 +4,7 @@ This repo is showcases learning resources I found for Solana and tracks my learn
 
 ## Prioritized Solana and Rust Learning Resources
 
-[Beginner Solana and Rust course](https://careerbooster.io/courses/full-solana-and-rust-programming-course-for-beginners)
+[Beginner Solana and Rust course](https://careerbooster.io/courses/full-solana-and-rust-programming-course-for-beginners)  
 [Advanced Solana and Rust course](https://careerbooster.io/courses/rust-solana-advance-development-course)
 
 ## Other Learning Resources
@@ -18,9 +18,8 @@ This repo is showcases learning resources I found for Solana and tracks my learn
 
 ### Rust
 
-[Buffalo Joe Rust Beginner Tutorial](https://www.youtube.com/playlist?list=PLUBKxx7QjtVnXD7-u8iIVeIdQXmYRptp-)
-[Buffalo Joe Rust Intermediate Tutorial](https://www.youtube.com/playlist?list=PLUBKxx7QjtVk9cVT9VaTtoDKivyWuLZZf)
-[Buffalo Joe Rust on Solana Tutorial](https://www.youtube.com/playlist?list=PLUBKxx7QjtVnU3hkPc8GF1Jh4DE7cf4n1)
+[Buffalo Joe Rust Beginner Tutorial](https://www.youtube.com/playlist?list=PLUBKxx7QjtVnXD7-u8iIVeIdQXmYRptp-)  
+[Buffalo Joe Rust Intermediate Tutorial](https://www.youtube.com/playlist?list=PLUBKxx7QjtVk9cVT9VaTtoDKivyWuLZZf)  
 [Let's Get Rusty Learning Guide](https://learn.letsgetrusty.com/)
 
 ## Advanced - Solana Programs
