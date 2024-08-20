@@ -21,6 +21,7 @@ This repo is showcases learning resources I found for Solana and tracks my learn
 [Buffalo Joe Rust Beginner Tutorial](https://www.youtube.com/playlist?list=PLUBKxx7QjtVnXD7-u8iIVeIdQXmYRptp-)  
 [Buffalo Joe Rust Intermediate Tutorial](https://www.youtube.com/playlist?list=PLUBKxx7QjtVk9cVT9VaTtoDKivyWuLZZf)  
 [Let's Get Rusty Learning Guide](https://learn.letsgetrusty.com/)
+[Rust Programming Language Book](https://doc.rust-lang.org/book/)
 
 ## Advanced - Solana Programs
 [Create Twitter on Solana guide from Loris Leiva](https://lorisleiva.com/create-a-solana-dapp-from-scratch/)  
