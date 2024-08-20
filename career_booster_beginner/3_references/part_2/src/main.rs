@@ -30,4 +30,10 @@ fn main() {
 
     // Lifetimes
     // 👉 A lifetime describes in what part of the code a reference can be safely used. While most of the time, the compiler can infer lifetimes for all references automatically, sometimes it is useful to describe your intentions explicitly. The actual complete types of an immutable and mutable reference are 
+    // `&'lifetime T`
+    // and 
+    // `&'lifetime mut T` respectively.
+    
+    // Lifetimes are the mechanism used by the compiler to determine whether mutable references to the same mutable overlap (which is not allowed to prevent data races). 
+
 }
