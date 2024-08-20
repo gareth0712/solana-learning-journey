@@ -100,4 +100,36 @@ fn main() {
     println!("tuple_hi_alias.2: {}", tuple_hi_alias.2);
 
     // 6) Structs
+    // We use regular structs over tuple struct when we want to give the fields a custom name
+    struct MyStruct {
+        should_do_groceries: bool,
+        birth_year: u32,
+        height_in_meters: f64,
+    }
+    let my_struct = MyStruct {
+        should_do_groceries: true,
+        birth_year: 1990,
+        height_in_meters: 1.75,
+    };
+
+    println!("my_struct.should_do_groceries: {}", my_struct.should_do_groceries);
+    println!("my_struct.birth_year: {}", my_struct.birth_year);
+    println!("my_struct.height_in_meters: {}", my_struct.height_in_meters);
+
+    // 7) Enums
+    // Purpose: make sure the value holds one of multiple kinds of values which are known at compile time
+    enum CardinalDirection {
+        North,
+        East,
+        South,
+        West,
+    }
+
+    let d = CardinalDirection::East;
+    if let CardinalDirection::East = d {
+        println!("We are going east!");
+    } else {
+        println!("We are not going east but in some other direction!");
+    }
+
 }
