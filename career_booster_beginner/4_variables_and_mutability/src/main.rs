@@ -47,6 +47,8 @@ fn main() {
     // Patterns
     // The `let` statement is quite powerful. ☝️ You can provide a pattern instead of just the variable name.
     let (w, z) = (8, 9);
+    println!("w: {}", w);
+    println!("z: {}", z);
     // The parenthesis in the above statement is not a particular language construct. You are just destructuring a tuple. You can also destructure structs.
 
     // Define the `Person` type.
@@ -56,7 +58,7 @@ fn main() {
         likes_brownies: bool,
     }
     // Create a `Person` from its parts.
-    let p = Person {
+    let p: Person = Person {
         name: "Mick",
         age: 30,
         likes_brownies: true,
@@ -64,4 +66,8 @@ fn main() {
     // Deconstruct the `Person` back into its parts,
     // omitting fields other than `name` and `age`.
     let Person { name, age, .. } = p;
+    println!("name: {}", name);
+    println!("age: {}", age);
+
+    // the `..` is used to denote "any remaining fields". It allows you to only specify the fields that you care about. The complete description of what `let` can do can be found in the reference.
 }
