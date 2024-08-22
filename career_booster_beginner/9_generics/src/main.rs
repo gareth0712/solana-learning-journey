@@ -100,6 +100,8 @@ fn main() {
         b: B,
     }
 
+    // This line will be explained in next section 10_traits
+    #[derive(Debug)]
     enum MyEnum<A, B> {
         _A(A),
         B(B),
@@ -112,6 +114,8 @@ fn main() {
     // We have to specify the type of the `MyEnum::A` variant here because Rust does not have information to infer it.
     // While using `_` tells Rust to infer the type
     let e = MyEnum::<i32, _>::B("Hello");
+    // Given the above #[derive(Debug)] line, we can print the enum as if it has been implemented with the Debug trait
+    println!("e is: {:?}", e);
 
     // Generic Functions
     // It is possible to write free functions that accept generic types too:
