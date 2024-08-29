@@ -6,6 +6,7 @@ This repo is showcases learning resources I found for Solana and tracks my learn
 
 [Beginner Solana and Rust course](https://careerbooster.io/courses/full-solana-and-rust-programming-course-for-beginners)  
 [Advanced Solana and Rust course](https://careerbooster.io/courses/rust-solana-advance-development-course)
+[Build on Solana](https://www.risein.com/courses/build-on-solana)
 
 ## Other Learning Resources
 
