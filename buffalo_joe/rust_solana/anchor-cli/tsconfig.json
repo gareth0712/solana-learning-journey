@@ -13,6 +13,7 @@
     "skipDefaultLibCheck": true,
     "paths": {
       "@/*": ["scripts/*"],
+      "@dist/*": ["dist/*"],
     }
   },
   "include": ["scripts"],
