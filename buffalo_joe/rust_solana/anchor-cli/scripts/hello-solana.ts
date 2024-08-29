@@ -1,39 +1,28 @@
 import {
   Connection,
-  TransactionInstruction,
-  Transaction,
-  sendAndConfirmTransaction,
+  Keypair
 } from '@solana/web3.js';
 
-import 'dotenv/config';
-
-import { connectDevnet, getProgram, getAccount } from '@/utils';
+import { connectDevnet, getAccount, getProgram, pingProgram } from '@/utils';
 
 async function main() {
+  const programName = 'hello_solana';
   // run the following command in cli ahead to ensure you can get the log message properly: 
   // $ solana logs | grep "<program id deployed on devnet> invoke" -A 3
   console.log("Launching client...");
 
   const connection: Connection = await connectDevnet();
   // Get our program's public key (ensure you have deployed the program on devnet)
-  const { programId } = await getProgram('hello_solana');
-  const triggerKeypair = await getAccount();
-
-  /*
-  Conduct a transaction with our program
-  */
-  console.log('--Pinging Program ', programId.toBase58());
-  const instruction = new TransactionInstruction({
-    keys: [{pubkey: triggerKeypair.publicKey, isSigner: false, isWritable: true}],
-    programId,
-    data: Buffer.alloc(0),
-  });
-  await sendAndConfirmTransaction(
+  const { programId } = await getProgram(programName);
+  const localKeypair: Keypair = await getAccount();
+  await pingProgram({
     connection,
-    new Transaction().add(instruction),
-    [triggerKeypair],
-  );
-
+    programName,
+    programId,
+    localAccountKeypair: localKeypair,
+    accountPubkey: localKeypair.publicKey,
+  });
+  
   /*
     If you have run the following command in cli ahead, you shd see the logs upon finishing executing this program, for my case: 
     $ solana logs | grep "<program id deployed on devnet> invoke" -A 3

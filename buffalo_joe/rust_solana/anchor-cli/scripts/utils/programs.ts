@@ -1,6 +1,10 @@
 import {
+  Connection,
   Keypair,
   PublicKey,
+  Transaction,
+  TransactionInstruction,
+  sendAndConfirmTransaction,
 } from '@solana/web3.js';
 import path from 'path';
 
@@ -22,4 +26,48 @@ export const getProgram = async (programName: string): Promise<{programKeypair: 
   console.log(`Its Program ID is:`);
   console.log(`   ${programId.toBase58()}`)
   return { programKeypair, programId};
+}
+
+/*
+  Ping the program.
+*/
+export async function pingProgram({
+  connection,
+  programName,
+  programId,
+  localAccountKeypair,
+  accountPubkey, // either local account or client account
+}: {
+  connection: Connection,
+  programName: string,
+  programId: PublicKey,
+  localAccountKeypair: Keypair,
+  accountPubkey: PublicKey,
+}) {
+  console.log(`All right, let's run it.`);
+  console.log(`Pinging ${programName} program of programId ${programId.toBase58()}...`);
+  
+  // const instruction = new TransactionInstruction({
+  //   keys: [{pubkey: triggerKeypair.publicKey, isSigner: false, isWritable: true}],
+  //   programId,
+  //   data: Buffer.alloc(0),
+  // });
+  // await sendAndConfirmTransaction(
+  //   connection,
+  //   new Transaction().add(instruction),
+  //   [triggerKeypair],
+  // );
+
+  const instruction = new TransactionInstruction({
+      keys: [{pubkey: accountPubkey, isSigner: false, isWritable: true}],
+      programId,
+      data: Buffer.alloc(0), // Empty instruction data
+  });
+  await sendAndConfirmTransaction(
+      connection,
+      new Transaction().add(instruction),
+      [localAccountKeypair],
+  );
+
+  console.log(`Ping successful.`);
 }
