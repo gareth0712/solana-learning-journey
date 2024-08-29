@@ -11,6 +11,9 @@
     "baseUrl": ".",
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "paths": {
+      "@/*": ["scripts/*"],
+    }
   },
   "include": ["scripts"],
   "exclude": ["lint-staged.config.js"]

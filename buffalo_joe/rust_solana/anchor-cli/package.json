@@ -3,7 +3,7 @@
   "scripts": {
     "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
     "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check",
-    "start:hello-solana": "yarn tsx client/hello-solana.ts",
+    "start:hello-solana": "yarn tsx scripts/hello-solana.ts",
     "clean": "yarn run clean:program",
     "build:program:hello-solana": "cargo build-bpf --manifest-path=../hello-solana/Cargo.toml --bpf-out-dir=dist/program",
     "clean:program": "cargo clean --manifest-path=./programs/anchor-cli/Cargo.toml && rm -rf ./dist",
@@ -17,6 +17,7 @@
     "@types/bn.js": "^5.1.0",
     "@types/chai": "^4.3.0",
     "@types/mocha": "^9.0.0",
+    "@types/mz": "^2.7.8",
     "@types/node": "^22.5.1",
     "chai": "^4.3.4",
     "dotenv": "^16.4.5",
