@@ -9,9 +9,9 @@ use solana_program::{
 entrypoint!(process_instruction);
 
 fn process_instruction(
-    program_id: &Pubkey,
-    accounts: &[AccountInfo],
-    instruction_data: &[u8]
+    _program_id: &Pubkey,
+    _accounts: &[AccountInfo],
+    _instruction_data: &[u8]
 ) -> ProgramResult {
     msg!("Hello Solana! (From Rust!)");
     Ok(())

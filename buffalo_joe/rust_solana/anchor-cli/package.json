@@ -1,13 +1,16 @@
 {
   "license": "ISC",
   "scripts": {
+    "start:ping-hello-solana": "yarn tsx scripts/pingHelloSolana.ts",
+    "start:ping-math-sum": "yarn tsx scripts/pingMathSum.ts",
+    "clean": "./cicd/cicd.sh clean",
+    "reset": "./cicd/cicd.sh reset",
+    "build": "./cicd/cicd.sh build",
+    "deploy": "./cicd/cicd.sh deploy",
+    "reset-and-build": "./cicd/cicd.sh reset-and-build",
+    "test:program": "cargo test-bpf --manifest-path=./src/<program>/Cargo.toml",
     "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
-    "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check",
-    "start:hello-solana": "yarn tsx scripts/hello-solana.ts",
-    "clean": "yarn run clean:program",
-    "build:program:hello-solana": "cargo build-bpf --manifest-path=../hello-solana/Cargo.toml --bpf-out-dir=dist/program",
-    "clean:program": "cargo clean --manifest-path=./programs/anchor-cli/Cargo.toml && rm -rf ./dist",
-    "test:program": "cargo test-bpf --manifest-path=./src/program/Cargo.toml"
+    "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check"
   },
   "dependencies": {
     "@coral-xyz/anchor": "^0.30.1",

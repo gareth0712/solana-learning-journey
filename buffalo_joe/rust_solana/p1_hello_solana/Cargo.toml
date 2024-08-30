@@ -1,11 +1,9 @@
 [package]
-name = "p2-math-stuff-sum"
+name = "p1_hello_solana"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-borsh = "0.9.3"
-borsh-derive = "0.9.1"
 solana-program = "1.9.9"
 
 [dev-dependencies]

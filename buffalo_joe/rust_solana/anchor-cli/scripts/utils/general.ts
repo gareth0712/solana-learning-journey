@@ -5,12 +5,13 @@ import {
 import fs from 'mz/fs';
 
 /*
-  Connect to Solana dev net.
+  Connect to Solana network given rpc url.
 */
-export const connectDevnet = async (): Promise<Connection> => {
-  const connection = new Connection('https://api.devnet.solana.com', 'confirmed');
+export const connectSolRpc = async (rpcUrl: string): Promise<Connection> => {
+  console.log(`Connecting to sol rpc: ${rpcUrl}...`)
+  const connection = new Connection(rpcUrl, 'confirmed');
 
-  console.log(`Successfully connected to Solana dev net.`);
+  console.log(`Successfully connected to Solana network.`);
   return connection;
 }
 

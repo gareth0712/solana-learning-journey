@@ -9,8 +9,8 @@ use solana_program::{
 };
 
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
-pub struct MathStuffSum {
-    pub sum: u32,
+pub struct MathStuffSquare {
+    pub square: u32,
 }
 
 entrypoint!(process_instruction);
@@ -18,7 +18,7 @@ entrypoint!(process_instruction);
 fn process_instruction(
     program_id: &Pubkey,
     accounts: &[AccountInfo],
-    instruction_data: &[u8]
+    _instruction_data: &[u8]
 ) -> ProgramResult {
     // Directly from Solana Hello World example:
     //
@@ -40,13 +40,13 @@ fn process_instruction(
     msg!("Lamports: {:#?}", account.lamports);
     msg!("Debug output complete.");
 
-    msg!("Adding 1 to sum...");
+    msg!("Squaring value...");
 
-    let mut math_stuff = MathStuffSum::try_from_slice(&account.data.borrow())?;
-    math_stuff.sum += 1;
+    let mut math_stuff = MathStuffSquare::try_from_slice(&account.data.borrow())?;
+    math_stuff.square = math_stuff.square.pow(2);
     math_stuff.serialize(&mut &mut account.data.borrow_mut()[..])?;
 
-    msg!("Current sum is now: {}", math_stuff.sum);
+    msg!("Current square is now: {}", math_stuff.square);
 
     Ok(())
 }

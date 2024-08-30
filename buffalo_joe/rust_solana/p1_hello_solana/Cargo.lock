@@ -2506,11 +2506,9 @@ dependencies = [
 ]
 
 [[package]]
-name = "p2-math-stuff-square"
+name = "p1_hello_solana"
 version = "0.1.0"
 dependencies = [
- "borsh 0.9.3",
- "borsh-derive 0.9.3",
  "solana-program",
  "solana-program-test",
  "solana-sdk",

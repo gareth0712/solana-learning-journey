@@ -2506,7 +2506,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "p2-math-stuff-sum"
+name = "p2_math_sum"
 version = "0.1.0"
 dependencies = [
  "borsh 0.9.3",

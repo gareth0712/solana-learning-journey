@@ -6,9 +6,12 @@ import {
   SystemProgram,
   Transaction,
   sendAndConfirmTransaction,
+  AccountInfo,
+  SendTransactionError,
 } from '@solana/web3.js';
 import fs from 'mz/fs';
 import yaml from 'yaml';
+import 'dotenv/config';
 
 import { CONFIG_FILE_PATH, loadKeypairFromFile } from '.';
 
@@ -63,21 +66,21 @@ export const configureClientAccount = async ({
   localAccountKeypair: Keypair,
   programId: PublicKey,
   accountSpaceSize: number
-}) => {
-  const SEED = 'test1';
-  const clientPubKey = await PublicKey.createWithSeed(
-      localAccountKeypair.publicKey,
-      SEED,
-      programId,
+}): Promise<PublicKey> => {
+  const SEED = process.env.SEED?? 'test1';
+  console.log(`Using SEED ${SEED} for client account...`);
+
+  const clientPubKey: PublicKey = await PublicKey.createWithSeed(
+    localAccountKeypair.publicKey,
+    SEED,
+    programId, // adding the programId here makes the program owns the client account
   );
 
   console.log(`For simplicity's sake, we've created an address using a seed.`);
-  console.log(`That seed is just the string "test(num)".`);
-  console.log(`The generated address is:`);
-  console.log(`   ${clientPubKey.toBase58()}`);
+  console.log(`The generated address is: ${clientPubKey.toBase58()}`);
 
   // Make sure it doesn't exist already.
-  const clientAccount = await connection.getAccountInfo(clientPubKey);
+  let clientAccount = await connection.getAccountInfo(clientPubKey);
   if (clientAccount === null) {
       console.log(`Looks like that account does not exist. Let's create it.`);
 
@@ -98,4 +101,5 @@ export const configureClientAccount = async ({
   } else {
       console.log(`Looks like that account exists already. We can just use it.`);
   }
+  return clientPubKey;
 }

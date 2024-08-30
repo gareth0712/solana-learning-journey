@@ -8,7 +8,7 @@ import {
 } from '@solana/web3.js';
 import path from 'path';
 
-import { PROGRAM_PATH, loadKeypairFromFile } from '.';
+import { PROGRAM_PATH, loadKeypairFromFile, connectSolRpc, getAccount, configureClientAccount, NETWORKS } from '.';
 
 /*
   Get the following for targeted program:
@@ -36,30 +36,18 @@ export async function pingProgram({
   programName,
   programId,
   localAccountKeypair,
-  accountPubkey, // either local account or client account
+  clientAccountPubkey, // supply local account if no state is needed in the program
 }: {
   connection: Connection,
   programName: string,
   programId: PublicKey,
   localAccountKeypair: Keypair,
-  accountPubkey: PublicKey,
+  clientAccountPubkey: PublicKey,
 }) {
-  console.log(`All right, let's run it.`);
   console.log(`Pinging ${programName} program of programId ${programId.toBase58()}...`);
-  
-  // const instruction = new TransactionInstruction({
-  //   keys: [{pubkey: triggerKeypair.publicKey, isSigner: false, isWritable: true}],
-  //   programId,
-  //   data: Buffer.alloc(0),
-  // });
-  // await sendAndConfirmTransaction(
-  //   connection,
-  //   new Transaction().add(instruction),
-  //   [triggerKeypair],
-  // );
 
   const instruction = new TransactionInstruction({
-      keys: [{pubkey: accountPubkey, isSigner: false, isWritable: true}],
+      keys: [{pubkey: clientAccountPubkey, isSigner: false, isWritable: true}],
       programId,
       data: Buffer.alloc(0), // Empty instruction data
   });
@@ -70,4 +58,35 @@ export async function pingProgram({
   );
 
   console.log(`Ping successful.`);
+}
+
+export const pingProgramFromConnection = async (programName: string, options?: {
+  accountSpaceSize?: number,
+  rpcUrl?: string
+}) => {
+  console.log("Launching client...");
+  let rpcUrl: string = NETWORKS.LOCALHOST;
+  if (options?.rpcUrl !== undefined) rpcUrl = options.rpcUrl;
+  const connection: Connection = await connectSolRpc(rpcUrl);
+  // Get our program's public key (ensure you have already deployed the program)
+  const { programId } = await getProgram(programName);
+  let localAccountKeypair: Keypair, clientPublicKey: PublicKey;
+  localAccountKeypair = await getAccount();
+  if (options?.accountSpaceSize !== undefined) {
+    clientPublicKey = await configureClientAccount({
+      connection,
+      localAccountKeypair,
+      programId,
+      accountSpaceSize: options.accountSpaceSize,
+    })
+  } else {
+    clientPublicKey = localAccountKeypair.publicKey;
+  }
+  await pingProgram({
+    connection,
+    programName,
+    programId,
+    localAccountKeypair: localAccountKeypair,
+    clientAccountPubkey: clientPublicKey,
+  });
 }
