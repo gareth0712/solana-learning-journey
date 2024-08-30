@@ -8,23 +8,23 @@ import {
 } from '@solana/web3.js';
 import path from 'path';
 
-import { PROGRAM_PATH, loadKeypairFromFile, connectSolRpc, getAccount, configureClientAccount, NETWORKS } from '.';
+import { PROGRAM_PATH, loadKeypairFromFile, connectSolRpc, getAccount, configureClientAccount, logger } from '.';
 
 /*
-  Get the following for targeted program:
+  Get the following for targeted program (ensure you have already deployed the program):
   - program keypair: Keypair we used to create the on-chain Rust program
   - programId
 */
 export const getProgram = async (programName: string): Promise<{programKeypair: Keypair, programId: PublicKey}> => {
+  logger.section(`============= Program ====================`);
   // e.g. hello_solana => hello_solana-keypair.json
   const programKeypair: Keypair = await loadKeypairFromFile(
       path.join(PROGRAM_PATH, programName + '-keypair.json')
   );
   const programId: PublicKey = programKeypair.publicKey;
 
-  console.log(`We're going to ping the ${programName} program.`);
-  console.log(`Its Program ID is:`);
-  console.log(`   ${programId.toBase58()}`)
+  logger.log(`We're going to ping the ${programName} program.`);
+  logger.success(`Its Program ID is: ${programId.toBase58()}`);
   return { programKeypair, programId};
 }
 
@@ -44,7 +44,8 @@ export async function pingProgram({
   localAccountKeypair: Keypair,
   clientAccountPubkey: PublicKey,
 }) {
-  console.log(`Pinging ${programName} program of programId ${programId.toBase58()}...`);
+  logger.section(`============= Pinging Program ============`);
+  logger.log(`Pinging ${programName} program of programId ${programId.toBase58()}...`);
 
   const instruction = new TransactionInstruction({
       keys: [{pubkey: clientAccountPubkey, isSigner: false, isWritable: true}],
@@ -57,21 +58,20 @@ export async function pingProgram({
       [localAccountKeypair],
   );
 
-  console.log(`Ping successful.`);
+  logger.success(`Ping successful.`);
 }
 
 export const pingProgramFromConnection = async (programName: string, options?: {
   accountSpaceSize?: number,
   rpcUrl?: string
 }) => {
-  console.log("Launching client...");
-  let rpcUrl: string = NETWORKS.LOCALHOST;
-  if (options?.rpcUrl !== undefined) rpcUrl = options.rpcUrl;
-  const connection: Connection = await connectSolRpc(rpcUrl);
-  // Get our program's public key (ensure you have already deployed the program)
+  logger.section(`============ Launching Client ============`);
+  const connection: Connection = await connectSolRpc(options?.rpcUrl);
   const { programId } = await getProgram(programName);
+
   let localAccountKeypair: Keypair, clientPublicKey: PublicKey;
   localAccountKeypair = await getAccount();
+
   if (options?.accountSpaceSize !== undefined) {
     clientPublicKey = await configureClientAccount({
       connection,

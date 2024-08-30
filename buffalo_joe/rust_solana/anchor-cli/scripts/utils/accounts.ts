@@ -6,19 +6,18 @@ import {
   SystemProgram,
   Transaction,
   sendAndConfirmTransaction,
-  AccountInfo,
-  SendTransactionError,
 } from '@solana/web3.js';
 import fs from 'mz/fs';
 import yaml from 'yaml';
 import 'dotenv/config';
 
-import { CONFIG_FILE_PATH, loadKeypairFromFile } from '.';
+import { CONFIG_FILE_PATH, loadKeypairFromFile, logger } from '.';
 
 /*
   Generate an account (keypair) to transact with our program
 */
 export const generateKeypair = async (): Promise<Keypair> => {
+  logger.section(`========== Generating Local Account =========`);
   const generatedKeypair = Keypair.generate();
   return generatedKeypair;
 }
@@ -38,18 +37,19 @@ export const getAirdropSol = async (connection: Connection, publicKey: PublicKey
   Either load Keypair or generate a local account (ensure there is +ve SOL balance)
 */
 export const getAccount = async (): Promise<Keypair> => {
+  logger.section(`========== Getting Local Account =========`);
   let keypair: Keypair;
   if (fs.existsSync(CONFIG_FILE_PATH)) {
     const configYml = await fs.readFile(CONFIG_FILE_PATH, {encoding: 'utf8'});
     const keypairPath = await yaml.parse(configYml).keypair_path;
-    console.log('keypair file (id.json) found. Reading local account...')
+    logger.log('keypair file (id.json) found. Reading local account...')
     keypair = await loadKeypairFromFile(keypairPath);
-    console.log(`Local account loaded successfully.`);
+    logger.log(`Local account loaded successfully.`);
   } else {
     keypair = await generateKeypair();
-    console.log(`Local account generated successfully.`);
+    logger.log(`Local account generated successfully.`);
   }
-  console.log('Local Account public key is: ', keypair.publicKey);
+  logger.success(`Local Account public key is: ${keypair.publicKey.toBase58()}`);
   return keypair;
 }
 
@@ -67,22 +67,20 @@ export const configureClientAccount = async ({
   programId: PublicKey,
   accountSpaceSize: number
 }): Promise<PublicKey> => {
+  logger.section(`========== Getting Client Account =========`);
   const SEED = process.env.SEED?? 'test1';
-  console.log(`Using SEED ${SEED} for client account...`);
-
   const clientPubKey: PublicKey = await PublicKey.createWithSeed(
     localAccountKeypair.publicKey,
     SEED,
     programId, // adding the programId here makes the program owns the client account
   );
 
-  console.log(`For simplicity's sake, we've created an address using a seed.`);
-  console.log(`The generated address is: ${clientPubKey.toBase58()}`);
+  logger.log(`For simplicity's sake, we've created an address using a seed: ${SEED}`);
 
   // Make sure it doesn't exist already.
   let clientAccount = await connection.getAccountInfo(clientPubKey);
   if (clientAccount === null) {
-      console.log(`Looks like that account does not exist. Let's create it.`);
+      logger.log(`Looks like that account does not exist. Let's create it.`);
 
       const transaction = new Transaction().add(
           SystemProgram.createAccountWithSeed({
@@ -97,9 +95,10 @@ export const configureClientAccount = async ({
       );
       await sendAndConfirmTransaction(connection, transaction, [localAccountKeypair]);
 
-      console.log(`Client account created successfully.`);
+      logger.success(`Client account created successfully.`);
   } else {
-      console.log(`Looks like that account exists already. We can just use it.`);
+      logger.success(`Looks like that account exists already. We can just use it.`);
   }
+  logger.success(`The client public key is: ${clientPubKey.toBase58()}`);
   return clientPubKey;
 }
