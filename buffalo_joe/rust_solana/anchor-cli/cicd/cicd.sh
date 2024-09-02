@@ -1,6 +1,6 @@
 #! /bin/bash
 
-SOLANA_PROGRAMS=("p1_hello_solana" "p2_math_sum" "p3_math_square")
+SOLANA_PROGRAMS=("p1_hello_solana" "p2_math_sum" "p3_math_square" "p4_calculator" "p6_advanced_counter")
 
 case $1 in
     "reset")

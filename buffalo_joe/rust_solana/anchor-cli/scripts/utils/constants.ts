@@ -15,8 +15,8 @@ export const CONFIG_FILE_PATH = path.resolve(
 );
 
 export const NETWORKS = {
-  MAINNET: "https://api.mainnet-beta.solana.com",
-  TESTNET: "https://api.testnet.solana.com",
-  DEVNET: "https://api.devnet.solana.com",
-  LOCALHOST: "http://localhost:8899",
-}
+  MAINNET: 'https://api.mainnet-beta.solana.com',
+  TESTNET: 'https://api.testnet.solana.com',
+  DEVNET: 'https://api.devnet.solana.com',
+  LOCALHOST: 'http://localhost:8899',
+};

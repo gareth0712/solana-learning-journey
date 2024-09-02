@@ -4,40 +4,36 @@ import { NETWORKS, pingProgramFromConnection } from '@/utils';
 
 class MathStuffSum {
   sum = 0;
-  constructor(fields: {sum: number} | undefined = undefined) {
+  constructor(fields: { sum: number } | undefined = undefined) {
     if (fields) {
       this.sum = fields.sum;
     }
   }
 }
 
-const MathStuffSumSchema = new Map([
-  [MathStuffSum, {kind: 'struct', fields: [['sum', 'u32']]}],
-]);
+const MathStuffSumSchema = new Map([[MathStuffSum, { kind: 'struct', fields: [['sum', 'u32']] }]]);
 
-const MATH_STUFF_SIZE = borsh.serialize(
-  MathStuffSumSchema,
-  new MathStuffSum(),
-).length;
+const MATH_STUFF_SIZE = borsh.serialize(MathStuffSumSchema, new MathStuffSum()).length;
 
-// run the following command in cli ahead to ensure you can get the log message properly: 
+// run the following command in cli ahead to ensure you can get the log message properly:
 // $ solana logs | grep "<program id deployed on devnet> invoke" -A 3
 async function main() {
   const programName = 'p2_math_sum';
   await pingProgramFromConnection(programName, {
     accountSpaceSize: MATH_STUFF_SIZE,
-    rpcUrl: NETWORKS.DEVNET
+    rpcUrl: NETWORKS.DEVNET,
   });
 }
 
 main().then(
   () => process.exit(),
-  err => {
+  (err) => {
     console.error(err);
     process.exit(-1);
   },
 );
 
+// =============================================================
 /*
   $ solana account 5KPnmh1k3qmJWy9YKABGdxm8ms6BUcVxLvLQcEhmzie
     Public Key: 5KPnmh1k3qmJWy9YKABGdxm8ms6BUcVxLvLQcEhmzie
@@ -68,3 +64,4 @@ main().then(
     Length: 4 (0x4) bytes
     0000:   02 00 00 00
 */
+// =============================================================

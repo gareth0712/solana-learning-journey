@@ -1,8 +1,9 @@
 {
   "license": "ISC",
   "scripts": {
-    "start:ping-hello-solana": "yarn tsx scripts/pingHelloSolana.ts",
-    "start:ping-math-sum": "yarn tsx scripts/pingMathSum.ts",
+    "start:p1": "yarn tsx scripts/pingHelloSolana.ts",
+    "start:p2": "yarn tsx scripts/pingMathSum.ts",
+    "start:p4": "yarn tsx scripts/operateCalculator.ts",
     "clean": "./cicd/cicd.sh clean",
     "reset": "./cicd/cicd.sh reset",
     "build": "./cicd/cicd.sh build",
