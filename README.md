@@ -1,6 +1,8 @@
 # solana-learning-journey
 
-This repo is showcases learning resources I found for Solana and tracks my learning journey. I will be updating this repo with my progress and resources I find useful. Any feedback or suggestions are welcome. If any of the resources are outdated or incorrect, please let me know.
+This repo is showcases learning resources I found for Solana and tracks my learning journey. I will
+be updating this repo with my progress and resources I find useful. Any feedback or suggestions are
+welcome. If any of the resources are outdated or incorrect, please let me know.
 
 ## Prioritized Solana and Rust Learning Resources
 
@@ -11,6 +13,7 @@ This repo is showcases learning resources I found for Solana and tracks my learn
 ## Other Learning Resources
 
 ### Solana
+
 [Solana bootcamp Youtube playlist](https://www.youtube.com/playlist?list=PLilwLeBwGuK6NsYMPP_BlVkeQgff0NwvU)  
 [Buffalo Joe YouTube channel(Rust on Solana)](https://www.youtube.com/@CodingCrypto/)  
 [SolAndy Soldev Youtube playlist](https://www.youtube.com/playlist?list=PLmAMfj0qP2wwfnuRJQge2ss4sJxnhIqyt)  
@@ -25,14 +28,15 @@ This repo is showcases learning resources I found for Solana and tracks my learn
 [Rust Programming Language Book](https://doc.rust-lang.org/book/)
 
 ## Advanced - Solana Programs
-[Create Twitter on Solana guide from Loris Leiva](https://lorisleiva.com/create-a-solana-dapp-from-scratch/)  
+
+[Create Twitter on Solana guide from Loris Leiva](https://lorisleiva.com/create-a-solana-dapp-from-scratch/)
 
 Programs to learn from (in order of complexity from easiest to hardest)  
 [Anchor starter with 3 counter programs](https://github.com/solana-developers/anchor-starter)  
 [Anchor example contracts](https://github.com/tgaye/AnchorExampleContracts/)  
 [Solana program examples](https://github.com/solana-developers/program-examples)  
 [Solana program library](https://github.com/solana-labs/solana-program-library)  
-[Solana Open-Source list](https://github.com/StockpileLabs/awesome-solana-oss)  
+[Solana Open-Source list](https://github.com/StockpileLabs/awesome-solana-oss)
 
 [Solana programming resources](https://github.com/SolanaNatives/Solana-Programming-Resources)  
 [Web3 builders Alliance](https://web3builders.dev/builders)
@@ -40,3 +44,19 @@ Programs to learn from (in order of complexity from easiest to hardest)
 ## Learning flow
 
 ![Solana Learning Flow](./assets/flow.png)
+
+## Other references
+
+[The Rust Programming Language](https://doc.rust-lang.org/book/)
+[Rust By Example](https://doc.rust-lang.org/rust-by-example/)
+[Rustlings](https://github.com/rust-lang/rustlings/)
+[Rust makes you feel like a genius](https://www.youtube.com/watch?v=0rJ94rbdteE)
+[CS156A](https://www.cs.brandeis.edu/~cs146a/rust/doc-02-21-2015/book)
+[Why Rust is a significant development in programming languages](https://www.youtube.com/watch?v=IwjlCxwcuIc)
+[Considering Rust](https://www.youtube.com/watch?v=DnT-LUQgc7s)
+[Traits and trait objects - more than just interfaces - Rust Community Stuttgart](https://www.youtube.com/watch?v=izXf9-CTAfc)
+[Tour of Rusts standard library Traits](https://github.com/pretzelhammer/rust-blog/blob/master/posts/tour-of-rusts-standard-library-traits.md)
+[The curse of strong typing](https://fasterthanli.me/articles/the-curse-of-strong-typing)
+[A Gentle Introduction To Rust](https://stevedonovan.github.io/rust-gentle-intro/1-basics.html)
+[Rust Cookbook](https://rust-lang-nursery.github.io/rust-cookbook/intro.html)
+[Rust for C++ Programmers](https://github.com/nrc/r4cppp)
