@@ -5,14 +5,14 @@ use std::io::prelude::*;
 
 // The `File` type is an abstraction around files.
 // The `File::create` function creates a new file if it doesn't exist, or truncates it if it does.
-fn createFile() -> std::io::Result<()> {
+fn create_file() -> std::io::Result<()> {
   let mut file = File::create("foo.txt")?;
   file.write_all(b"Hello, world!")?;
   Ok(())
 }
 
 // The file::open is used to open a file in read-only mode.
-fn readFile() -> std::io::Result<()> {
+fn read_file() -> std::io::Result<()> {
   let mut file = File::open("foo.txt")?;
   let mut contents = String::new();
   file.read_to_string(&mut contents)?;
@@ -24,7 +24,7 @@ fn readFile() -> std::io::Result<()> {
 
 // Directories
 // 😀 You can list the entries in a directory using
-fn readDirectory() -> io::Result<()> {
+fn read_directory() -> io::Result<()> {
   for entry in fs::read_dir(".")? {
     let entry = entry?;
     let file_type = entry.file_type()?;
