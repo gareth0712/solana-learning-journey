@@ -24,9 +24,3 @@ $ cargo build-bpf
 $ cd <directory with .so file, usually in target/deploy/>
 $ solana program deploy program.so
 ```
-
-## Anchor CLI for Solana Program (Work in progress)
-
-## Accounts
-
-![Solana Accounts Flow](/assets/solana-account.png)

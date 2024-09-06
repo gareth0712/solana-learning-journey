@@ -1,4 +1,4 @@
-# solana-learning-journey
+# Solana Learning Journey
 
 This repo is showcases learning resources I found for Solana and tracks my learning journey. I will
 be updating this repo with my progress and resources I find useful. Any feedback or suggestions are
@@ -43,7 +43,7 @@ Programs to learn from (in order of complexity from easiest to hardest)
 
 ## Learning flow
 
-![Solana Learning Flow](./assets/flow.png)
+![Solana Learning Flow](/assets/flow.png)
 
 ## Other references
 
@@ -60,3 +60,84 @@ Programs to learn from (in order of complexity from easiest to hardest)
 [A Gentle Introduction To Rust](https://stevedonovan.github.io/rust-gentle-intro/1-basics.html)
 [Rust Cookbook](https://rust-lang-nursery.github.io/rust-cookbook/intro.html)
 [Rust for C++ Programmers](https://github.com/nrc/r4cppp)
+
+# Solana
+
+TODO: Summarize things learnt and create a summary below
+
+## Accounts
+
+![Solana Accounts Flow](/assets/solana-account.png)
+
+```
+
+## Solana CLI
+
+- Init a new Solana program for development
+
+```
+
+$ cargo init --lib <program_name>
+
+```
+
+- Compile a program to generate `target/` directory and `program.so` file
+
+```
+
+$ cd <directory with cargo.toml> $ cargo build-bpf
+
+```
+
+- Deploy program (You must have compiled a program using the command above)
+
+```
+
+$ cd <directory with .so file, usually in target/deploy/> $ solana program deploy program.so
+
+```
+
+- Get program ID from keypair
+
+```
+
+$ solana address -k target/deploy/hello_world_example-keypair.json
+6RTLRg3mjopTSDCfEPjEwT2siszbYE7EcafkXw3mT2rS
+
+```
+
+## Anchor CLI (Work in progress)
+
+- Init a new Anchor program
+
+```
+
+anchor init <project_name>
+
+```
+
+- create a new program
+
+```
+
+cd <project_name> anchor new <program_name>
+
+```
+
+- Build the program
+
+```
+
+anchor build
+
+```
+
+- Test the program
+
+```
+
+anchor test
+
+```
+
+```
