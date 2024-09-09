@@ -2506,6 +2506,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "p2_token_transfer"
+version = "0.1.0"
+dependencies = [
+ "solana-program",
+ "solana-program-test",
+ "solana-sdk",
+ "spl-token",
+]
+
+[[package]]
 name = "parking_lot"
 version = "0.12.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5396,16 +5406,6 @@ dependencies = [
  "sharded-slab",
  "thread_local",
  "tracing-core",
-]
-
-[[package]]
-name = "transfer"
-version = "0.1.0"
-dependencies = [
- "solana-program",
- "solana-program-test",
- "solana-sdk",
- "spl-token",
 ]
 
 [[package]]
