@@ -10,6 +10,7 @@ use solana_sdk::{
 };
 use std::mem;
 
+// Integration Tests
 #[tokio::test]
 async fn test_hello_solana() {
   // some unique pubkey for our program
