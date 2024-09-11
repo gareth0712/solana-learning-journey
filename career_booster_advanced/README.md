@@ -266,12 +266,18 @@ by the program.
 
 - If the state account is created as a PDA, the program derives the account address
   deterministically using seeds and the program ID.
+- State account, often created by user / program for specific state (counter in a counter program),
+  is often poorly suited for storing user data. That is because the Solana account has limitations
+  of the account size of 10Mb; sooner or later, you will hit that limit with the user data; Thats
+  the reason we need Program Derived Accounts (PDAs)
 
 ### Program Derived Accounts
 
-A Program-Derived Address (PDA) is a special kind of Solana account that is derived
-deterministically using a `seed` and a `program ID`.
+PDAs are account keys that only the program (program_id) has the authority to sign. A PDA is a
+special kind of Solana account that is derived deterministically using a `seed` and a `program ID`.
 
+- solana-sdk provides a way to store user data on a small per-user-generated account called a
+  program-derived account (PDA).
 - PDAs do not have private keys, which means they are entirely controlled by the program that
   derived them, and only the program can authorize actions on them.
 - They are used to represent program-controlled accounts, such as escrow accounts, vaults, or, in
@@ -281,11 +287,79 @@ deterministically using a `seed` and a `program ID`.
 - An Associated Token Account (`ATA`) is a PDA that is specifically derived for a user’s wallet
   address and a token mint under the SPL Token Program. The ATA is deterministically derived based
   on a combination of:
+
   - The user’s wallet address (public key),
   - The token mint address (the type of token, e.g., USDC, USDT, etc.),
   - The SPL Token Program ID.
   - This ensures that for every unique user-token pair, the SPL Token Program can always derive the
     same Associated Token Account without needing a private key.
+
+### How do we derive the address for a PDA?
+
+- Create a PDA using the `system_instruction::create_account:` method in the `solana_program` crate.
+
+```
+pub fn create_account(
+  from_pubkey: &Pubkey, // an account that pays a fee and transfers lamports to the to_pubkey account.
+  to_pubkey: &Pubkey, // our PDA account owned by the owner, which is our program_id
+  lamports: u64, // describes the number of lamports transferred to the account
+  space: u64, // the number of bytes allocated to the account.
+  owner: &Pubkey // program id
+) -> Instruction
+```
+
+- The PDAs are generated from a combination of seeds (such as the string `vote_account`) and a
+  program id. ☝️ This combination of seeds and program id is then run through a `sha256` hash
+  function to see whether or not they generate a public key that lies on the ed25519 elliptic curve.
+
+Good practices for creating PDAs:
+
+- Always use PDA when you need to store user data instead of storing it on program storage.
+- Verify the given PDA address by regenerating it with find_program_address. If your program
+  requires using as little gas as possible, you may keep find_program_address on the client side and
+  only verify that the account is not yet created or initialized.
+- Use all related accounts to PDA in a seed for find_program_address and use an enum for seed
+  generation to avoid collision between seeds.
+
+## Cross Program Invocation
+
+CPI is nothing more than
+
+1. `invoke`
+
+```
+pub fn invoke(
+  instruction: &Instruction,
+  account_infos: &[AccountInfo<'_>]
+) -> Result<(), ProgramError>
+```
+
+2. `invoke_signed`
+
+```
+pub fn invoke_signed(
+  instruction: &Instruction,
+  account_infos: &[AccountInfo<'_>],
+  signers_seeds: &[&[&[u8]]]
+) -> Result<(), ProgramError>
+```
+
+☝️ So basically each cross-program invocation do create an Instruction Where:
+
+```
+pub struct Instruction {
+ pub program_id: Pubkey,
+ pub accounts: Vec,
+ pub data: Vec,
+}
+```
+
+- program_id is a public key of the executable account you want to call that should be provided to
+  your program;
+- accounts are just a vector of accounts required for the program to execute, they are as well
+  already provided to your program, so you only need to pass right one;
+- data is an array of bytes that another program’s process_instruction expects as instruction_data.
+- signers_seeds an array of seeds used to generate PDAs you want to sign on behalf of your program.
 
 ## Program Tests
 
@@ -340,3 +414,68 @@ inside
 
 You can call the functions of a Solana program via rpc_api since Solana nodes accept HTTP requests.
 Consider this method as a pre-release testing method.
+
+## Cargo Workspaces
+
+### Package section
+
+It is just some meta-information about your project, but none of that affects how your program will
+be identified once deployed, it’s just for the internal development process.
+
+```
+[package]
+name = "solana-staking-app"
+version = "0.0.1"
+edition = "2021"
+```
+
+### Dependencies section
+
+This section represents dependencies of your program, from now we only need a few packages:
+
+- borsh & borsh-derive, those two handles necessary serialization for our data
+- solana-program is a core dependency of any Solana program that provides all necessary APIs like
+  entrypoint!, AccountInfo, etc.
+- thiserror is not necessary, but it’s a popular package for error handling
+- For example
+
+```
+[dependencies]
+borsh = "0.9.3"
+borsh-derive = "0.9.3"
+solana-program = "1.14.5"
+thiserror = "1.0.37"
+```
+
+### Development Dependencies section
+
+This section is what we need only during development and testing
+
+```
+[dev-dependencies]
+solana-logger = "1.14.5"
+solana-program-test = "1.14.5"
+solana-sdk = "1.14.5"
+solana-validator = "1.14.5"
+```
+
+### Profile release section
+
+This section configures how your program builds for production. We will not discuss most of the
+options, but overflow-checks = true is a tremendously important part that provides out-of-the-box
+safe math.
+
+NOTE: except in some rare cases, you should prefer overflow-checks = true over handling math safety
+manually.
+
+```
+[profile.release]
+codegen-units = 1
+# Tell `rustc` to optimize for small code size.
+opt-level = "z"
+lto = true
+debug = false
+panic = "abort"
+# Opt into extra safety checks on arithmetic operations https://stackoverflow.com/a/64136471/249801
+overflow-checks = true
+```
