@@ -1,0 +1,3 @@
+[submodule "buffalo_joe/rust_solana/solana-client"]
+	path = buffalo_joe/rust_solana/solana-client
+	url = https://github.com/gareth0712/solana-client.git
