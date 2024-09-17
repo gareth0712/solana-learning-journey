@@ -45,7 +45,7 @@ Programs to learn from (in order of complexity from easiest to hardest)
 
 ![Solana Learning Flow](/assets/flow.png)
 
-## Other references
+## References for Rust
 
 [The Rust Programming Language](https://doc.rust-lang.org/book/)
 [Rust By Example](https://doc.rust-lang.org/rust-by-example/)
@@ -61,9 +61,21 @@ Programs to learn from (in order of complexity from easiest to hardest)
 [Rust Cookbook](https://rust-lang-nursery.github.io/rust-cookbook/intro.html)
 [Rust for C++ Programmers](https://github.com/nrc/r4cppp)
 
+## References for Solana
+
+[The Solana Cookbook](https://solanacookbook.com/)  
+[The Solana Docs](https://solana.com/docs)  
+[Solana Cookbook on solana.com](https://solana.com/developers/cookbook)  
+[solana/web3.js API reference](https://solana-labs.github.io/solana-web3.js/)  
+[Solana Guides](https://solana.com/developers/guides)
+
 # Solana
 
-TODO: Summarize things learnt and create a summary below
+TODO:
+
+1. Summarize things learnt and create a summary below
+2. MultiSig
+3. Delegate Wallet
 
 ## Accounts
 
