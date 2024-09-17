@@ -74,7 +74,7 @@ Programs to learn from (in order of complexity from easiest to hardest)
 TODO:
 
 1. Summarize things learnt and create a summary below
-2. MultiSig
+2. Study MultiSig
 3. Delegate Wallet
 
 ## Accounts
