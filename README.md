@@ -80,3 +80,30 @@ TODO:
 ## Accounts
 
 ![Solana Accounts Flow](/assets/solana-account.png)
+
+## Security checklist
+
+1. Missing signer checks: if an instruction should only be available to a restricted set of
+   entities, but the program does not verify that the call has been signed by the appropriate entity
+   (e.g., by checking AccountInfo::is_signer ).
+2. Missing ownership checks: for accounts that are not supposed to be fully user-controlled, the
+   program does not check the AccountInfo::owner field.
+3. Missing rent exemption checks: all Solana accounts holding an Account, Mint, or Multisig must
+   contain enough SOL to be considered rent exempt. Otherwise, the accounts may fail to load.
+4. Signed invocation of unverified programs: the program does not verify the pubkey of any program
+   called via the invoke_signed() API.
+5. Solana account confusions: the program fails to ensure that the account data has the type it
+   expects to have.
+6. Re-initiation with cross-instance confusion
+7. Arithmetic overflow/underflows: If an arithmetic operation results in a higher or lower value,
+   the value will wrap around with two’s complement.
+8. Numerical precision errors: numeric calculations on floating point can cause precision errors and
+   those errors can accumulate.
+9. Loss of precision in the calculation: numeric calculations on integer types such as division can
+   lose precision.
+10. Incorrect calculation: for example, incorrect numerical computation to copy/paste errors
+11. Casting truncation
+12. Exponential complexity in calculation
+13. Missing freeze authority checks
+14. Insufficient SPL-Token account verification
+15. Over/under-payment of loans
