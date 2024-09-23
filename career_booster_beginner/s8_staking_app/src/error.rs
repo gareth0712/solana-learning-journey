@@ -17,6 +17,15 @@ pub enum StakingError {
   /// Account already initialized
   #[error("Account already initialized")]
   AlreadyInitialized,
+  /// Invalid user storage PDA account
+  #[error("Invalid user storage PDA")]
+  InvalidUserStoragePda,
+  /// Invalid SystemProgram account
+  #[error("Invalid SystemProgram account")]
+  SystemProgramMismatch,
+  /// Account is not initialized
+  #[error("Account is not initialized")]
+  NotInitialized,
 }
 
 // impl From<StakingError> for ProgramError is just a convertor from our error to Solana error. That’s it for declaring our errors; we will fill this enum with more once we advance with the logic.

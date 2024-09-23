@@ -63,3 +63,68 @@ fn process_initialize_pool(
 
   Ok(())
 }
+
+fn process_create_user(program_id: &Pubkey, accounts: &[AccountInfo]) -> ProgramResult {
+  let accounts_iter = &mut accounts.iter();
+  let signer = next_account_info(accounts_iter)?;
+  if !signer.is_signer {
+    return Err(StakingError::InvalidSigner.into());
+  }
+
+  let user_storage_pda_account = next_account_info(accounts_iter)?;
+  let (pda, bump_seed) = Pubkey::find_program_address(&[signer.key.as_ref()], program_id);
+  if pda != *user_storage_pda_account.key {
+    return Err(StakingError::InvalidUserStoragePda.into());
+  }
+
+  let system_program_account = next_account_info(accounts_iter)?;
+  if !system_program::check_id(system_program_account.key) {
+    return Err(StakingError::SystemProgramMismatch.into());
+  }
+
+  let rent_lamports = Rent::get()?.minimum_balance(USER_STORAGE_TOTAL_BYTES);
+  msg!(
+    "signer have to pay {} lamports for rent exemption of {} bytes",
+    rent_lamports,
+    state::USER_STORAGE_TOTAL_BYTES
+  );
+
+  invoke_signed(
+    &system_instruction::create_account(
+      signer.key,
+      user_storage_pda_account.key,
+      rent_lamports,
+      USER_STORAGE_TOTAL_BYTES.try_into().unwrap(),
+      program_id
+    ),
+    &[signer.clone(), user_storage_pda_account.clone(), system_program_account.clone()],
+    &[&[signer.key.as_ref(), &[bump_seed]]]
+  )?;
+
+  let mut user_storage_data = UserStorageAccount::try_from_slice(
+    &user_storage_pda_account.data.borrow()
+  )?;
+  if user_storage_data.is_initialized() {
+    return Err(ProgramError::AccountAlreadyInitialized);
+  }
+
+  user_storage_data.staked = 0;
+  user_storage_data.last_stake_timestamp = 0i64;
+  user_storage_data.is_initialized = true;
+
+  user_storage_data.serialize(&mut &mut user_storage_pda_account.data.borrow_mut()[..])?;
+
+  let pool_storage_account = next_account_info(accounts_iter)?;
+  let mut pool_storage_data = PoolStorageAccount::try_from_slice(
+    &pool_storage_account.data.borrow()
+  )?;
+  if !pool_storage_data.is_initialized() {
+    return Err(StakingError::NotInitialized.into());
+  }
+
+  pool_storage_data.user_count += 1;
+
+  pool_storage_data.serialize(&mut &mut pool_storage_account.data.borrow_mut()[..])?;
+
+  Ok(())
+}
